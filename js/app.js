@@ -1,6 +1,15 @@
 // 获取应用程序
 angular.module('myApp', ['ui.router'])
-// 第四步，在配置中定义路由
+//全局事件，切换显隐，可以用bootstrap公用模块替代
+.run(function ($rootScope) {
+    $rootScope.showAvatorList = function (e) {
+		var className =  e.target.getAttribute("class");
+		if(!(className === "list" || className === "headList" || className === "avList")){
+            $rootScope.isShow = false;
+		}
+    }
+})
+//定义路由
 .config(function ($stateProvider, $urlRouterProvider) {
 	// 通过state方法定义状态
 	$stateProvider
@@ -68,6 +77,7 @@ angular.module('myApp', ['ui.router'])
 	// $scope.isShow = false;
 	$scope.showList = function () {
 		$rootScope.isShow = !$rootScope.isShow;
+		console.log($rootScope.isShow)
 	}
 	$http.get('/checkLogin')
 	// 监听回调函数
@@ -112,6 +122,7 @@ angular.module('myApp', ['ui.router'])
 	//注册事件
 	$scope.regAll = function(){
 		delete $scope.data.password2;
+		// console.log($scope.regest)
 		$http.post('/createuser',$scope.data)
 			.success(function(res){
 				// console.log(res);
@@ -324,6 +335,7 @@ angular.module('myApp', ['ui.router'])
 					if(res == '-1'){
 						alert("对不起！服务器错误")
 					}else{
+                        $rootScope.nickname = $scope.user.nickname;
 						alert("恭喜！保存成功！")
 					}
 				})

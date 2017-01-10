@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var session = require('express-session');
-var router = require('./controller/router.js')
+var router = require('./controller/router.js');
 //数据库连接
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/bbs');

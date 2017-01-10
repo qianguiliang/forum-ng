@@ -7,29 +7,29 @@
     <link rel="stylesheet" type="text/css" href="css/app.css">
 </head>
 <body>
-<div class="app" ng-app="myApp" ng-style="{display: isShowAll}">
+<div class="app" ng-app="myApp" ng-style="{display: isShowAll}" ng-click="showAvatorList($event)">
     <!--头部模块-->
     <div class="header" ng-controller="headerCtrl">
         <div class="container">
             <h1 class="pull-left"><a href="#/home">神奇的论坛</a></h1>
-            <span class="avator" ng-click="showList()"><img ng-src="public/images/avatar.png" alt=""></span>
+            <a class="avator"  ng-click="showList()"><img class="avList" ng-src="public/images/avatar.png" alt=""></a>
             <p class="text">欢迎~<span ng-show="!isLogin">游客，<span class="pleaseLogin" data-toggle="modal" data-target="#logModal">请登录</span></span><span ng-show="isLogin" ng-bind="nickname?nickname:userEmail">尊敬的</span></p>
 
             <div class="list" ng-show="isShow">
-                <ul  ng-show="isLogin">
-                    <a href="#/personage"><li>个人中心</li></a>
-                    <li>我的帖子</li>
-                    <li>我的评论</li>
-                    <li ng-click="logOut()">登出</li>
+                <ul ng-show="isLogin">
+                    <a href="#/personage"><li class="headList">个人中心</li></a>
+                    <li class="headList">我的帖子</li>
+                    <li class="headList">我的评论</li>
+                    <li class="headList" ng-click="logOut()">登出</li>
                 </ul>
                 <ul ng-show="!isLogin">
-                    <li data-toggle="modal" data-target="#logModal">登陆</li>
-                    <li data-toggle="modal" data-target="#regModal">注册</li>
+                    <li class="headList" data-toggle="modal" data-target="#logModal">登陆</li>
+                    <li class="headList" data-toggle="modal" data-target="#regModal">注册</li>
                 </ul>
             </div>
         </div>
         <!--注册模态框-->
-        <div class="modal fade" id="regModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade modal-reg" id="regModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -41,31 +41,32 @@
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-3 control-label">邮箱</label>
                                 <div class="col-sm-9">
-                                    <input ng-model="data.email" name="Email" ng-blur="checkEmail()" ng-pattern="/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/"  class="form-control" id="inputEmail3" placeholder="请输入注册邮箱">
+                                    <input ng-model="data.email" name="Email" ng-required ng-blur="checkEmail()" ng-pattern="/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/"  class="form-control" id="inputEmail3" placeholder="请输入注册邮箱">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">密码</label>
                                 <div class="col-sm-9">
-                                    <input type="password" name="pas1" ng-model="data.password" ng-blur="checkPassword()" class="form-control" placeholder="请输入密码">
+                                    <input type="password" name="pas1" ng-required ng-model="data.password" ng-pattern="/^[a-zA-Z]\w{5,17}$/" ng-blur="checkPassword()" class="form-control" placeholder="请输入密码，以字母开头，长度在6-18之间，不允许特殊字符">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">请再次输入密码</label>
                                 <div class="col-sm-9">
-                                    <input type="password" name="pas2" ng-model="data.password2" ng-blur="checkPassword()" class="form-control" placeholder="请再次输入密码">
+                                    <input type="password" name="pas2" ng-required ng-model="data.password2" ng-blur="checkPassword()" class="form-control" placeholder="请再次输入密码">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-9">
+                                <div class="col-sm-offset-3 col-sm-9 reg-warn">
                                     <p ng-show="regist.Email.$dirty && regist.Email.$invalid">对不起，邮箱格式不正确</p>
                                     <p ng-show="regist.Email.$dirty && regist.Email.$valid && !checkExist">对不起，该邮箱已被占用</p>
-                                    <p ng-show="regist.pas1.$dirty && regist.pas2.$dirty && !checkPas">两次输入的密码不相同！</p>
+                                    <p ng-show="regist.pas1.$dirty && regist.pas2.$dirty && !checkPas && !( regist.pas1.$dirty && regist.pas1.$invalid)">两次输入的密码不相同！</p>
+                                    <p ng-show="regist.pas1.$dirty && regist.pas1.$invalid">对不起，密码格式不正确！</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-9">
-                                    <button type="submit" ng-click="regAll()" class="btn btn-success">注册</button>
+                                    <button type="submit" ng-click="regAll()" ng-disabled="!(regist.$dirty && regist.$valid&&checkExist)" class="btn btn-success">注册</button>
                                 </div>
                             </div>
                         </form>

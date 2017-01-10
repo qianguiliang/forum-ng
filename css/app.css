@@ -33,6 +33,10 @@ textarea {
   width: 100%;
   padding: 5px;
 }
+/*Modal*/
+.modal-reg .reg-warn {
+  color: #333;
+}
 /*Header*/
 .header {
   width: 100%;

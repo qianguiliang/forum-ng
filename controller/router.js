@@ -1,6 +1,6 @@
 var formidable = require("formidable");
 var fs = require("fs");
-var crypto = require("crypto");
+var crypto = require("crypto");             //加密
 var url = require("url");
 var User = require("../models/User.js");
 var Post = require('../models/Post.js');
@@ -37,7 +37,8 @@ exports.login = function(req,res){
             return;
         }
         var email = fields.email;
-        var password = fields.password;
+        var hash = crypto.createHash("sha256");
+        var passwordSha256 = hash.update(fields.password).digest("hex");
         User.find({'email': email},function(err,results){
             if(err){
                 res.send("-1");
@@ -48,7 +49,7 @@ exports.login = function(req,res){
                 return;
             }
             //密码不匹配
-            if(results[0].password != password){
+            if(results[0].password != passwordSha256){
                 res.send("-3");
                 return;
             }
@@ -85,9 +86,11 @@ exports.createuser = function(req,res){
             return;
         }
         // console.log(fields);
+        var hash = crypto.createHash("sha256");
+        var passwordSha256 = hash.update(fields.password).digest("hex");
         var u = new User({
             "email": fields.email,
-            "password": fields.password
+            "password": passwordSha256
         });
         u.save(function(err){
             if(err){
@@ -251,6 +254,7 @@ exports.changeuser = function(req,res){
         var id = req.session.email;
         User.find({'email': id},function(err,results){
             if(err){res.send('-1');return}
+            var isChangeNickname = !(results[0].nickname == fields.nickname);
             results[0].nickname = fields.nickname;
             results[0].tel = fields.tel;
             results[0].sex = fields.sex;
@@ -262,6 +266,26 @@ exports.changeuser = function(req,res){
                 }
                 res.send("1");
             })
+            //如果更改了nickname，需要修改posts中的userNickname
+            if(isChangeNickname){
+                Post.find({'userName': id},function (err,results) {
+                    if(err){res.send('-1');return};
+                    // console.log(results)
+                    for(var k in results){
+                        results[k].userNickname = fields.nickname;
+                        results[k].save(function(err){
+                            if(err){
+                                res.send("-1");
+                                console.log("err")
+                                return;
+                            }
+                            res.send("1");
+                        })
+                    }
+                })
+            }
         })
+
+
     })
 }
