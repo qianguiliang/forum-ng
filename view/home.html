@@ -1,0 +1,67 @@
+<div class="postList">
+    <div class="header clearfix">
+        <h1 class="pull-left">全部主题</h1>
+        <button type="button" class="btn btn-info pull-right"data-toggle="modal" data-target="#newPost">发表新主题</button>
+    </div>
+    <ul>
+        <li ng-repeat="item in news" class="news">
+            <p class="user"><span class="avator"><img src="public/images/avatar.png"></span><span class="userName" ng-bind="item.userNickname?item.userNickname:item.userName"></span></p>
+            <a href="#/details/{{item._id}}">
+                <p class="title" ng-bind="item.title"></p>
+                <p class="content" ng-bind="item.content"></p>
+            </a>
+            <p class="footer">
+                <span class="date" ng-bind="item.date | date: 'yyyy-MM-dd HH:mm:ss'"></span>
+                <span class="comment pull-right" ng-click="bind_id(item._id)" data-toggle="modal" data-target="#addComment">评论 <span class="badge bc" ng-bind="item.comments?item.comments.length:0"></span></span>
+                <span class="like pull-right"><span class="glyphicon glyphicon-thumbs-up ic" ng-click="addLike(item._id)"></span><span class="badge" ng-bind="item.like?item.like.length:0"></span></span>
+            </p>
+        </li>
+    </ul>
+
+
+    <!-- 发布新主题Modal -->
+    <div class="modal fade" id="newPost" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">发布新主题</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" name="post">
+                        <div class="input-group">
+                            <input type="text" ng-model="data.title" name="title" class="title form-control" placeholder="标题" ng-maxlength="20">
+                        </div>
+                        <textarea name="text" ng-model="data.content" cols="30" rows="10" class="mainText" ng-required="true"></textarea>
+                    </form>
+                    <p ng-show="post.title.$dirty && post.title.$invalid">标题过长！最多不超过20字</p>
+                    <p ng-show="post.text.$dirty && post.text.$invalid">必须要有内容！</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" ng-click="creatPost()" class="btn btn-primary">发布</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 回复Modal -->
+    <div class="modal fade" id="addComment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">回复：</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" name="comment">
+                        <textarea name="text" ng-model="data.content" cols="30" rows="10" class="mainText" ng-required="true"></textarea>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" ng-disabled="comment.text.$pristine||comment.text.$invalid" ng-click="addComment()" class="btn btn-primary">回复</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

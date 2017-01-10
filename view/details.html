@@ -1,0 +1,52 @@
+<div class="details">
+    <h1 class="title" ng-bind="title"></h1>
+    <p class="info">
+        <span class="avator"><img src="public/images/avatar.png"></span>
+        <span class="user" ng-bind="nickname?nickname:userName"></span>
+        <span class="date" ng-bind="date | date: 'yyyy-MM-dd HH:mm:ss'"></span>
+        <span class="share pull-right">分享：<span class="glyphicon glyphicon-share-alt"></span></span>
+    </p>
+    <p class="content" ng-bind="content"></p>
+    <p class="footer">
+        <ul class="list">
+            <li><span class="glyphicon glyphicon-heart"></span></li>
+            <li><span class="glyphicon glyphicon-thumbs-up"></span></li>
+            <li data-toggle="modal" data-target="#details_addComment" class="nomargin"><span class="glyphicon glyphicon-comment"></span></li>
+        </ul>
+    </p>
+</div>
+<div class="details_comment">
+    <h1 class="pinglun">评论区：</h1>
+    <ul>
+        <li ng-repeat="item in comments">
+            <span class="avator"><img src="public/images/avatar.png"></span>
+            <div class="right">
+                <p class="user" ng-bind="item.nickname?item.nickname:item.commentuser"></p>
+                <p class="comment" ng-bind="item.commenttext"></p>
+
+                <span class="date" ng-bind="item.date | date: 'yyyy-MM-dd HH:mm:ss'"></span>
+            </div>
+        </li>
+    </ul>
+</div>
+<button type="button" class="pull-right details_button btn btn-info" data-toggle="modal" data-target="#details_addComment">发表评论</button>
+<!-- 评论页回复Modal -->
+<div class="modal fade" id="details_addComment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">回复：</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" name="comment">
+                    <textarea name="text" ng-model="data.content" cols="30" rows="10" class="mainText" ng-required="true"></textarea>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" ng-disabled="comment.text.$pristine||comment.text.$invalid" ng-click="addComment()" class="btn btn-primary">回复</button>
+            </div>
+        </div>
+    </div>
+</div>

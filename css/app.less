@@ -1,0 +1,286 @@
+// 引入库文件
+@import url(lib.less);
+/*reset*/
+*{
+    margin: 0;
+    padding: 0;
+}
+p{
+    word-break:break-all;
+}
+.clearfix:after{
+    content:'';
+    display: block;
+    clear: both;
+}
+body{
+    color: @fontColor;
+    font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: @backgroundColor;
+}
+ul,li{
+    list-style: none;
+}
+a,
+a:hover,
+a:visited,
+a:active,
+a:link{
+    text-decoration: none;
+    color: @fontColor;
+}
+textarea{
+    resize: none;
+    width: 100%;
+    padding: 5px;
+}
+/*Header*/
+.header{
+    @navH: @space*4;
+    @mb: @space*1.5;
+    width: 100%;    
+    height: @navH;
+    background-color: @mainColor;
+    color: @white;
+    margin-bottom:@mb;
+    .container{
+        position: relative;
+    }
+    h1{
+        height: 100%;
+        line-height:  @space*4;
+        margin: 0;
+        a{
+            color: @white;
+        }
+    }
+    .avator{
+        .avator(@space*2.5,0,@space*.75,0,right);
+    }
+    .text{
+        float: right;
+        height: 100%;
+        margin-right: @space*5;
+        .font(@f16,@white,@space*4);
+        .pleaseLogin{
+            cursor: pointer;
+        }
+    }
+    .list{
+        .absoluteR(@space*3.5,@space*.5);
+        z-index: 99;
+        width: @space*8;
+        padding-top: @space*.5;
+        background-color: @white;
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        border-radius:3px;
+        color: @fontColor;
+        li{
+            cursor: pointer;
+            padding-left: 10px;
+            .hlh(@space*1.5);
+            &:hover{
+                background-color: @hoverLi;
+            }
+        }
+    }
+    .modal-title{
+        color: @fontColor;
+    }
+
+}
+/*Main*/
+.main{
+    padding: 0;
+    .postList{
+        .header{
+            height: @space*2;
+            background-color: @backgroundColor;
+            color: @mainColor;
+            border-bottom:1px solid @borderColor;
+            h1{
+                padding: @space*.6 @space;
+                font-size: @f16;
+                line-height: @f16;
+                border-bottom:5px solid @mainColor;
+                position: relative;
+            }
+            button{
+                height: 100%;
+            }
+        }
+        .title{
+            width: @space*40 !important;
+            border-radius: 5px;
+            margin-bottom: @space*.5
+        }
+        .mainText{
+            width: 100%;
+            border: 1px solid rgb(204, 204, 204);
+            padding: 6px 12px;
+        }
+        .news{
+            width: 100%;
+            background-color: @white;
+            margin-bottom: @space;
+            .box-shadow();
+            padding: @space*.75;
+            .user{
+                font-size: @f12;
+                color: @fontGray;
+            }
+            .avator{
+                .avator(@space*1.25,@space*.5);
+            }
+            .title{
+                font-size: @f18;
+                color: @black;
+            }
+            .content{
+                font-size: @f14;
+                color: @fontGray;
+                .multiHide();
+            }
+            .footer{
+                font-size: @f12;
+                color: @fontGray;
+                .ic{
+                    position: relative;
+                    top: 3px;
+                    margin-right: 5px;
+                    cursor: pointer;
+                }
+                .comment{
+                    margin-left: @space*.5;
+                    cursor: pointer;
+                }
+                .bc{
+                    margin-left: 3px;
+                }
+            }
+            
+        }
+    }
+}
+/*details*/
+.details,
+.details_comment{
+    width: 100%;
+    .box-shadow();
+    background-color: @white;
+    padding: @space;
+    padding-top: @space*.5;
+}
+.details{
+    h1{
+        font-size: @f32;
+        line-height: 40px;
+    }
+    .avator{
+        .avator(@space*2,@space*.25);
+        float: none;
+    }
+    .user{
+        font-size: @f14;
+    }
+    .date{
+        margin-left: @space*.5;
+        font-size: @f12;
+        color: @fontGray;
+    }
+    .share{
+        line-height: 40px;
+    }
+    .info{
+        padding-bottom: @space*.5;
+        border-bottom:1px solid rgb(238, 238, 238);
+    }
+    .content{
+        font-size: @f18;
+        margin-bottom: @space*2;
+        width: 100%;
+    }
+    .list{
+        width: 100%;
+        height: @space*4;
+        padding: 0 @space*10;
+        li{
+            position: relative;
+            display: block;
+            float: left;
+            margin-right: @space*2;
+            width: @space*3.5;
+            height: @space*3.5;
+            border-radius: 50%;
+            background-color: @cirColor;
+            cursor: pointer;
+            &:hover{
+                color: @mainColor;
+            }
+            &.nomargin{
+                margin-right: 0;
+            }
+            span{
+                font-size: @f18;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-top: -9px;
+                margin-left: -9px;
+            }
+        }
+    }
+}
+.details_comment{
+    margin-top: @space;
+    li{
+        position: relative;
+        padding-top: 5px;
+        padding-bottom: 15px;
+        margin-bottom: 5px;
+        border-bottom: 1px solid rgb(238, 238, 238);
+    }
+    .pinglun{
+        font-size: @f26;
+        padding-bottom: @space;
+        border-bottom: 1px solid rgb(238, 238, 238);
+    }
+    .avator{
+        .avator(@space*2.5,5px);
+    }
+    .right{
+        padding-left: @space*3.2;
+        .user{
+            .font(14px,@black,20px);
+        }
+        .commnet{
+            font-size: @f16;
+        }
+        .date{
+            font-size: @f12;
+            color: @fontGray;
+        }
+    }
+}
+.details_button{
+    margin-top: @space;
+    margin-bottom: @space*5;
+}
+/*Recommend*/
+.recommend{
+    padding: @space;
+    background-color: @white;
+    .box-shadow()
+}
+/*personpage*/
+.personpage{
+    padding: @space;
+    background-color: @white;
+    .box-shadow();
+    h1{
+        font-size: @f30;
+        line-height: @f30;
+        padding-bottom: @space;
+        border-bottom:1px solid rgb(238, 238, 238);
+    }
+}

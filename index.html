@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>论坛</title>
+    <link rel="stylesheet" type="text/css" href="public/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+</head>
+<body>
+<div class="app" ng-app="myApp" ng-style="{display: isShowAll}">
+    <!--头部模块-->
+    <div class="header" ng-controller="headerCtrl">
+        <div class="container">
+            <h1 class="pull-left"><a href="#/home">神奇的论坛</a></h1>
+            <span class="avator" ng-click="showList()"><img ng-src="public/images/avatar.png" alt=""></span>
+            <p class="text">欢迎~<span ng-show="!isLogin">游客，<span class="pleaseLogin" data-toggle="modal" data-target="#logModal">请登录</span></span><span ng-show="isLogin" ng-bind="nickname?nickname:userEmail">尊敬的</span></p>
+
+            <div class="list" ng-show="isShow">
+                <ul  ng-show="isLogin">
+                    <a href="#/personage"><li>个人中心</li></a>
+                    <li>我的帖子</li>
+                    <li>我的评论</li>
+                    <li ng-click="logOut()">登出</li>
+                </ul>
+                <ul ng-show="!isLogin">
+                    <li data-toggle="modal" data-target="#logModal">登陆</li>
+                    <li data-toggle="modal" data-target="#regModal">注册</li>
+                </ul>
+            </div>
+        </div>
+        <!--注册模态框-->
+        <div class="modal fade" id="regModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">注册</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form" name="regist">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">邮箱</label>
+                                <div class="col-sm-9">
+                                    <input ng-model="data.email" name="Email" ng-blur="checkEmail()" ng-pattern="/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/"  class="form-control" id="inputEmail3" placeholder="请输入注册邮箱">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">密码</label>
+                                <div class="col-sm-9">
+                                    <input type="password" name="pas1" ng-model="data.password" ng-blur="checkPassword()" class="form-control" placeholder="请输入密码">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">请再次输入密码</label>
+                                <div class="col-sm-9">
+                                    <input type="password" name="pas2" ng-model="data.password2" ng-blur="checkPassword()" class="form-control" placeholder="请再次输入密码">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <p ng-show="regist.Email.$dirty && regist.Email.$invalid">对不起，邮箱格式不正确</p>
+                                    <p ng-show="regist.Email.$dirty && regist.Email.$valid && !checkExist">对不起，该邮箱已被占用</p>
+                                    <p ng-show="regist.pas1.$dirty && regist.pas2.$dirty && !checkPas">两次输入的密码不相同！</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <button type="submit" ng-click="regAll()" class="btn btn-success">注册</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--登陆模态框-->
+        <div class="modal fade" id="logModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">登陆</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form" name="login">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">邮箱</label>
+                                <div class="col-sm-9">
+                                    <input ng-model="logdata.email" name="logemail" class="form-control" placeholder="请输入邮箱">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-3 control-label">密码</label>
+                                <div class="col-sm-9">
+                                    <input type="password" name="pas" ng-model="logdata.password" class="form-control" placeholder="请输入密码">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <!--<p ng-show="login.logemail.$dirty && login.pas.$dirty ">账号不存在或者密码错误！</p>-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <button type="submit" ng-click="logIn()" class="btn btn-success">登陆</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+    <!--主体模块-->
+    <div class="main col-lg-8" ui-view="main"></div>
+    <!--推荐帖子模块-->
+    <div class="recommend col-lg-offset-1 col-lg-3" ui-view="slider"></div>
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript" src="public/js/angular-1-4-1.js"></script>
+<script type="text/javascript" src="public/js/angular-ui-router.js"></script>
+<script type="text/javascript" src="public/js/jquery-1.12.3.min.js"></script>
+<script type="text/javascript" src="public/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
