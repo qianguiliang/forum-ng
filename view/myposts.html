@@ -1,0 +1,13 @@
+<div class="myposts">
+    <ul>
+        <li ng-repeat="item in posts">
+            <p class="title" ng-bind="item.title"></p>
+            <a href="#/details/{{item._id}}"><p class="main" ng-bind="item.content"></p></a>
+            <p class="footer">
+                <span class="date" ng-bind="item.date | date: 'yyyy-MM-dd HH:mm:ss'"></span>
+                <span class="pull-right"><span>评论数： </span><span ng-bind="item.comments.length"> </span>&emsp;
+                <span class="pull-right"><span>点赞数： </span><span ng-bind="item.like.length"> </span> </span>
+            </p>
+        </li>
+    </ul>
+</div>

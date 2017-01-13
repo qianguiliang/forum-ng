@@ -44,7 +44,7 @@ textarea{
 .header{
     @navH: @space*4;
     @mb: @space*1.5;
-    width: 100%;    
+    width: 100%;
     height: @navH;
     background-color: @mainColor;
     color: @white;
@@ -164,7 +164,7 @@ textarea{
                     margin-left: 3px;
                 }
             }
-            
+
         }
     }
 }
@@ -202,7 +202,7 @@ textarea{
         border-bottom:1px solid rgb(238, 238, 238);
     }
     .content{
-        font-size: @f18;
+        font-size: @f14;
         margin-bottom: @space*2;
         width: 100%;
     }
@@ -266,7 +266,55 @@ textarea{
             font-size: @f12;
             color: @fontGray;
         }
+        .putcom{
+          display: inline-block;
+          font-size: @f12;
+          position: relative;
+          top:-11px;
+          float: right;
+        }
+        .talk_list{
+          margin-top: 10px;
+          border: 1px solid @cirColor;
+          border-radius: 6px;
+          background-color: @cirColor;
+          //transition:all 1s ease 0s;
+          display: none;
+          padding: 15px;
+          padding-top: 10px;
+          .avator{
+            .avator(@space*2,5px);
+            //top: -5px;
+            left: -2px;
+          }
+          li{
+            font-size: @f14;
+            position: relative;
+            //padding: 0;
+            padding-bottom: 10px;
+            padding-left: 0px;
+            //margin: 0;
+            margin-bottom: 0;
+            .main{
+              margin:0;
+            }
+            .right{
+              padding-left: 50px;
+            }
+            .footert{
+              font-size: @f12;
+              color: @fontGray;
+            }
+            .reply{
+              cursor: pointer;
+            }
+          }
+          .pulldeply{
+            margin-top: 10px;
+          }
+        }
     }
+
 }
 .details_button{
     margin-top: @space;
@@ -288,5 +336,28 @@ textarea{
         line-height: @f30;
         padding-bottom: @space;
         border-bottom:1px solid rgb(238, 238, 238);
+    }
+}
+/*myposts*/
+.myposts{
+    padding: @space;
+    background-color: @white;
+    .box-shadow();
+    li{
+      position: relative;
+      padding-top: 5px;
+      padding-bottom: 15px;
+      margin-bottom: 5px;
+      border-bottom: 1px solid rgb(238, 238, 238);
+      .title{
+        font-size: @f16;
+      }
+      .footer{
+        font-size: @f12;
+        color: @fontGray;
+      }
+      .main{
+        .multiHide()
+      }
     }
 }

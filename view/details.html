@@ -18,13 +18,34 @@
 <div class="details_comment">
     <h1 class="pinglun">评论区：</h1>
     <ul>
-        <li ng-repeat="item in comments">
+        <li ng-repeat="item in comments" comments-dir>
             <span class="avator"><img src="public/images/avatar.png"></span>
             <div class="right">
                 <p class="user" ng-bind="item.nickname?item.nickname:item.commentuser"></p>
                 <p class="comment" ng-bind="item.commenttext"></p>
-
-                <span class="date" ng-bind="item.date | date: 'yyyy-MM-dd HH:mm:ss'"></span>
+                <div class="clearfix">
+                    <span class="date" ng-bind="item.date | date: 'yyyy-MM-dd HH:mm:ss'"></span>
+                    <button type="button" class="btn btn-default putcom" ng-click="launchtalk($event)">查看评论</button>
+                </div>
+                <div class="talk_list">
+                    <ul class="clearfix">
+                        <li ng-repeat="item_talk in item.talk">
+                            <span class="avator"><img src="public/images/avatar.png"></span>
+                            <div class="right">
+                                <p class="main"><span ng-bind="item_talk.fromemail"></span><span>: </span>
+                                    <span ng-if="item_talk.toemail">回复 <span ng-bind="item_talk.toemail?item_talk.toemail:''"></span>： </span>
+                                    <span class="content" ng-bind="item_talk.word"></span>
+                                </p>
+                                <p class="footert">
+                                    <span class="pull-right reply" ng-click="changeTarget($event,item_talk.fromemail?item_talk.fromemail:'')">&emsp; 回复</span>
+                                    <span class="pull-right" ng-bind="item_talk.talkdate | date: 'yyyy-MM-dd HH:mm:ss'"></span>
+                                </p>
+                            </div>
+                        </li>
+                        <input type="text" class="form-control replyinput" placeholder="回复本层：">
+                        <button type="button" class="btn btn-default pull-right pulldeply" ng-click="sendtalk($event)">发表回复</button>
+                    </ul>
+                </div>
             </div>
         </li>
     </ul>

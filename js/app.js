@@ -56,6 +56,20 @@ angular.module('myApp', ['ui.router'])
 
 		}
 	})
+	//定义我的帖子路由
+	.state('myposts',{
+		url:'/myposts',
+		views:{
+            main: {
+                templateUrl: 'view/myposts.html',
+                controller: 'mypostsCtrl'
+            },
+            slider: {
+                templateUrl: 'view/recommend.html',
+                controller: 'recommendCtrl'
+            }
+		}
+	})
 
 	// 定义默认路由 => 首页
 	$urlRouterProvider
@@ -77,7 +91,6 @@ angular.module('myApp', ['ui.router'])
 	// $scope.isShow = false;
 	$scope.showList = function () {
 		$rootScope.isShow = !$rootScope.isShow;
-		console.log($rootScope.isShow)
 	}
 	$http.get('/checkLogin')
 	// 监听回调函数
@@ -231,7 +244,6 @@ angular.module('myApp', ['ui.router'])
 								alert('获取新闻列表失败');
 							}else {
 								$scope.news = res
-								console.log($scope.news)
 							}
 						})
 				}
@@ -276,7 +288,10 @@ angular.module('myApp', ['ui.router'])
 			$scope.nickname = res.userNickname;
 			$scope.content = res.content;
 			$scope.like = res.like;
+			//倒序
 			$scope.comments = res.comments.reverse();
+			// $scope.talk = $scope.comments.talk.reverse();
+
 		})
 	// 发表回复
 	$scope.addComment = function () {
@@ -300,6 +315,74 @@ angular.module('myApp', ['ui.router'])
 			history.go('0');
 		}
 	}
+	//查看评论中的评论
+    $scope.launchtalk = function ($event) {
+	    //不好完成特效，暂时借助jQuery动画
+        // var talk = $event.target.nextElementSibling;
+        // var dataDis = talk.getAttribute('data-dis');
+        // if(dataDis == true){
+	     //    talk.setAttribute('style', "display: block");
+        //     talk.setAttribute('data-dis', "true");
+        // }else {
+        //     talk.setAttribute('style', "display: none");
+        //     talk.setAttribute('data-dis', "false");
+        // }
+        // .setAttribute('style', "display: none")
+        $($event.target).parent().next().slideToggle(400)
+    }
+    //发表楼层talk
+    // $scope.sendtalk = function ($event) {
+    //     if(!checkLogin.check()){
+    //         alert("请先登录");
+    //         return;
+    //     }
+    //     var text = $($event.target).prev().val();
+    //     //识别本回复的hash
+    //     var hash = arguments[1];
+    // }
+
+})
+//详情页自定义指令
+.directive('commentsDir',function () {
+    return {
+        restrict: 'A',
+        controller: function ($scope,checkLogin, $http,$element) {
+            $scope.toemail = '';
+            //发表楼层talk
+            console.log($scope)
+            $scope.sendtalk = function ($event) {
+                if(!checkLogin.check()){
+                    alert("请先登录");
+                    return;
+                }
+                $scope.text = $($event.target).prev().val();
+                //识别本回复的hash
+                $scope.hash = $scope.item.hash;
+
+                $http.post('/posttalk',{
+                    word: $scope.text,
+                    hash: $scope.item._id,
+                    detailId : $scope.detailId,
+                    toemail: $scope.toemail
+                })
+                    .success(function (res) {
+                        console.log(res)
+                        if (res == '-1') {
+                            alert("对不起！服务器错误");
+                        } else {
+                            alert("回复成功！");
+                            history.go('0');
+                        }
+                    })
+            }
+            //切换回复对象
+            $scope.changeTarget = function ($event,toemail) {
+                $scope.toemail = toemail;
+                console.log($($event.target).parent().parent().parent().parent().children(':last-child').prev().attr('placeholder','回复'+$scope.toemail))
+
+            }
+        }
+    }
 })
 .controller('recommendCtrl',function () {})
 //个人资料页
@@ -344,4 +427,21 @@ angular.module('myApp', ['ui.router'])
 		}
 
 	}
+})
+//我的帖子控制器
+.controller('mypostsCtrl',function ($scope, $http, $rootScope, $stateParams,checkLogin) {
+    if(!checkLogin.check()){
+        alert("请先登录！即将返回首页");
+        window.location = '/';
+    }
+    $http.get("/findmyports")
+		.success(function (res) {
+			if(res == '-1'){
+				alert("对不起！服务器错误")
+			}else {
+				$scope.posts = res;
+                console.log(res)
+			}
+        })
+
 })

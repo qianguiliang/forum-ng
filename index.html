@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>论坛</title>
     <link rel="stylesheet" type="text/css" href="public/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <!--<link rel="stylesheet" type="text/css" href="css/app.css">-->
+    <link rel="stylesheet" type="text/less" href="css/app.less">
 </head>
 <body>
 <div class="app" ng-app="myApp" ng-style="{display: isShowAll}" ng-click="showAvatorList($event)">
@@ -18,7 +19,7 @@
             <div class="list" ng-show="isShow">
                 <ul ng-show="isLogin">
                     <a href="#/personage"><li class="headList">个人中心</li></a>
-                    <li class="headList">我的帖子</li>
+                    <a href="#/myposts"><li class="headList">我的帖子</li></a>
                     <li class="headList">我的评论</li>
                     <li class="headList" ng-click="logOut()">登出</li>
                 </ul>
@@ -122,11 +123,12 @@
 
 </div>
 
-
+<script type="text/javascript" src="public/js/jquery-1.12.3.min.js"></script>
 <script type="text/javascript" src="public/js/angular-1-4-1.js"></script>
 <script type="text/javascript" src="public/js/angular-ui-router.js"></script>
-<script type="text/javascript" src="public/js/jquery-1.12.3.min.js"></script>
+<!--<script type="text/javascript" src="public/js/angular-animate.min.js"></script>-->
 <script type="text/javascript" src="public/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="less.js"></script>
 </body>
 </html>

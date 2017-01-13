@@ -29,6 +29,8 @@ app.get('/logout',router.logout);           //登出
 app.get("/checkexist",router.checkExist);   //Ajax接口，检查email是否被占用
 app.post('/addLike',router.addLike);        //给帖子增减点赞
 app.post('/postcomment',router.postcomment) //回复帖子
+app.get('/findmyports',router.findmyports)  //获取我的帖子
+app.post('/posttalk',router.posttalk)       //发表回复中的回复
 // app.get('/',router.showIndex);              //显示首页
 
 

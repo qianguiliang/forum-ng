@@ -17,7 +17,15 @@ var postSchema = new Schema({
         {   date:           String,
             commenttext:    String,
             commentuser:    String,
-            nickname   :    String
+            nickname   :    String,
+            talk       : [                      //评论中的评论
+                {
+                    word         : String,      //内容
+                    fromemail    : String,      //来自 email
+                    toemail      : String,      //发送给
+                    talkdate     : Number       //日期
+                }
+            ]
         }
     ]     
 })

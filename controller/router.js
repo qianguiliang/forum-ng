@@ -188,6 +188,41 @@ exports.postcomment = function(req,res){
         })
     })
 }
+//发表回复中的回复
+exports.posttalk = function (req,res) {
+    var form = new formidable.IncomingForm();
+    form.parse(req,function (err,fields,files) {
+        if(err){
+            console.log('-1');
+        }
+        var hash = fields.hash;     //talk的标识
+        var detail = fields.detailId;   //帖子的标识
+        var word = fields.word;
+        var toemail = fields.toemail;
+        Post.findById(detail)
+            // .where({'_id': hash})
+            .exec(function (err,doc) {
+                if(err) {res.send('-1');return;}
+                doc.comments.forEach(function (value,index) {
+                    if(doc.comments[index]._id == hash){
+                        doc.comments[index].talk.push({
+                            word: word,
+                            fromemail: req.session.email,
+                            toemail: toemail,
+                            talkdate: +new Date()
+                        })
+                        doc.save(function(err){
+                            if(err){
+                                res.send("-1");
+                                return;
+                            }
+                            res.send("1");
+                        })
+                    }
+                })
+            })
+    })
+}
 //获得新闻详情
 exports.newsdetail = function(req,res){
     var id = req.query.id;
@@ -287,5 +322,17 @@ exports.changeuser = function(req,res){
         })
 
 
+    })
+}
+//获取我的帖子
+exports.findmyports = function (req,res) {
+    var user = req.session.email;
+    User.find({'email': user},function(err,results){
+        if(err){res.send('-1')}
+        var posts = results[0].posts
+        Post.where('date').in(posts).sort({'_id':-1}).exec(function (err,docs) {
+            if(err){res.send('-1')}
+            res.send(docs)
+        })
     })
 }
