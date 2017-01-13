@@ -32,8 +32,8 @@
                         <li ng-repeat="item_talk in item.talk">
                             <span class="avator"><img src="public/images/avatar.png"></span>
                             <div class="right">
-                                <p class="main"><span ng-bind="item_talk.fromemail"></span><span>: </span>
-                                    <span ng-if="item_talk.toemail">回复 <span ng-bind="item_talk.toemail?item_talk.toemail:''"></span>： </span>
+                                <p class="main"><span ng-bind="item_talk.fromnick?item_talk.fromnick:item_talk.fromemail"></span><span>: </span>
+                                    <span ng-if="item_talk.toemail">回复 <span ng-bind="item_talk.tonick?item_talk.tonick:item_talk.toemail"></span> </span>
                                     <span class="content" ng-bind="item_talk.word"></span>
                                 </p>
                                 <p class="footert">

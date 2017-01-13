@@ -291,6 +291,7 @@ angular.module('myApp', ['ui.router'])
 			//倒序
 			$scope.comments = res.comments.reverse();
 			// $scope.talk = $scope.comments.talk.reverse();
+            console.log($scope.comments)
 
 		})
 	// 发表回复
@@ -349,7 +350,6 @@ angular.module('myApp', ['ui.router'])
         controller: function ($scope,checkLogin, $http,$element) {
             $scope.toemail = '';
             //发表楼层talk
-            console.log($scope)
             $scope.sendtalk = function ($event) {
                 if(!checkLogin.check()){
                     alert("请先登录");

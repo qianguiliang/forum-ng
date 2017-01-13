@@ -22,7 +22,9 @@ var postSchema = new Schema({
                 {
                     word         : String,      //内容
                     fromemail    : String,      //来自 email
+                    fromnick     : String,
                     toemail      : String,      //发送给
+                    tonick       : String,
                     talkdate     : Number       //日期
                 }
             ]

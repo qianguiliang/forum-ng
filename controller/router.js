@@ -299,25 +299,78 @@ exports.changeuser = function(req,res){
                     res.send("-1");
                     return;
                 }
-                res.send("1");
+                // res.send("1");
             })
             //如果更改了nickname，需要修改posts中的userNickname
             if(isChangeNickname){
                 Post.find({'userName': id},function (err,results) {
                     if(err){res.send('-1');return};
-                    // console.log(results)
-                    for(var k in results){
-                        results[k].userNickname = fields.nickname;
-                        results[k].save(function(err){
-                            if(err){
-                                res.send("-1");
-                                console.log("err")
-                                return;
-                            }
-                            res.send("1");
-                        })
-                    }
+                    results.forEach(function (value,index) {
+                        results[index].userNickname = fields.nickname;
+                        results[index].save()
+                    })
                 })
+
+                //同时要遍历所有posts内相关的
+                //comments内
+                Post.find({'comments.commentuser': id},function (err,results) {
+                    if(err){res.send('-1');return};
+                    results.forEach(function (value,index) {
+                        // console.log(results[index])
+                        results[index].comments.forEach(function (v,i) {
+                            results[index].comments[i].nickname = fields.nickname;
+                            results[index].save();
+                        })
+                    })
+                })
+                // //talk内的 发送者
+                // Post.find({'comments.talk.fromemail': id},function (err,results) {
+                //     if(err){res.send('-1');return};
+                //     results.forEach(function (value,index) {
+                //         console.log(222)
+                //         results[index].comments.forEach(function (v,i) {
+                //             console.log(results[index].comments)
+                //             results[index].comments[i].talk.forEach(function (vs,is) {
+                //                 results[index].comments[i].talk[is].fromnick = fields.nickname;
+                //                 results[index].save();
+                //             })
+                //         })
+                //     })
+                // })
+                //两种方式都可以save
+                Post.find()
+                    .where('comments.talk.fromemail').equals(id)
+                    .exec(function (err,doc) {
+                        if(err){res.send('-1');return};
+                        doc.forEach(function (value,index) {
+                            doc[index].comments.forEach(function (v,i) {
+                                doc[index].comments[i].talk.forEach(function (vs,is) {
+                                    // console.log(doc[index].comments[i].talk[is])
+                                    if(doc[index].comments[i].talk[is].fromemail == id)
+                                    doc[index].comments[i].talk[is].fromnick = fields.nickname;
+                                    doc[index].save();
+                                })
+                            })
+                        })
+                    })
+                // //talk内的 接受者
+                Post.find()
+                    .where('comments.talk.toemail').equals(id)
+                    .exec(function (err,doc) {
+                        if(err){res.send('-1');return};
+                        doc.forEach(function (value,index) {
+                            doc[index].comments.forEach(function (v,i) {
+                                doc[index].comments[i].talk.forEach(function (vs,is) {
+                                    if(doc[index].comments[i].talk[is].toemail == id)
+                                    doc[index].comments[i].talk[is].tonick = fields.nickname;
+                                    doc[index].save();
+                                })
+                            })
+                        })
+                    })
+                res.send("1");
+            }else {
+                res.send("1");
             }
         })
 
