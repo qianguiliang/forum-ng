@@ -1,6 +1,18 @@
 # forum-ng
-use node+mongoDB+Angular1</br>
-调试说明: </br>
-——监听端口3000</br>
-——启动，例如在C盘，则启动数据库  mongod --dbpath C:/BBS   </br>
-——数据库监听默认端口27017
+
+> forum 调试
+
+## 运行步骤（需要mongodb）
+
+``` bash
+# 安装依赖
+npm install
+
+# 运行mongodb
+monogod --dbpath yourpath
+
+# 运行node服务器
+node app.js
+
+# 监听端口3003
+http://localhost:3000

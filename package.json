@@ -1,0 +1,29 @@
+{
+  "name": "forum-ng",
+  "version": "1.0.0",
+  "description": "forum-ng",
+  "main": "app.js",
+  "dependencies": {
+    "ejs": "^2.5.2",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "gm": "^1.23.0",
+    "formidable": "^1.0.17",
+    "mongoose": "^4.6.5",
+    "mongodb": "^2.2.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wenchaoss/forum-ng.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wenchaoss/forum-ng/issues"
+  },
+  "homepage": "https://github.com/wenchaoss/forum-ng#readme"
+}
