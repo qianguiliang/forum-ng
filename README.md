@@ -5,7 +5,7 @@
 ## 运行步骤（需要mongodb）
 
 ``` bash
-# 安装依赖
+# 安装依赖（如果未同步node_modules文件夹）
 npm install
 
 # 运行mongodb
