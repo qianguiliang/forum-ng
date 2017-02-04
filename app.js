@@ -10,7 +10,6 @@ app.use(session({
     secret: 'houtai',
     // 过期时间，10天
     expires : new Date(Date.now() + 1000 * 60 * 60 * 24 * 10),
-    // 两个默认的配置，API要求
     resave: false,
     saveUninitialized: true
 }));

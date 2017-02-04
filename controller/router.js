@@ -4,10 +4,7 @@ var crypto = require("crypto");             //加密
 var url = require("url");
 var User = require("../models/User.js");
 var Post = require('../models/Post.js');
-//显示首页
-// exports.showIndex = function(req,res){
-//     res.redirect('index.html')
-// }
+
 //检查是否登录
 exports.checkLogin = function(req,res){
     if(req.session.login == true){
